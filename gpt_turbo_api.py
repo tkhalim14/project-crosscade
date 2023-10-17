@@ -1,37 +1,20 @@
 import requests, json
 import constants
 
-import gpt4all
+from gpt4all import GPT4All
 
 
 def hint_fetcher(word):
 
-    url = "https://api.openai.com/v1/chat/completions"
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {constants.OPENAI_API_KEY}"
-    }
+    model = GPT4All(model_name='orca-mini-3b.ggmlv3.q4_0.bin')
+    with model.chat_session():
+        response1 = model.generate(prompt='You are a riddle master with 200 IQ. Your task is to generate 3 clues for a given a word from user. Difficulty of riddle is easy.', temp=0)
+        response2 = model.generate(prompt='Word : Earth', temp=0)
+        response3 = model.generate(prompt='thank you', temp=0)
+        print(model.current_chat_session)
 
+    # get_content = response.json()['choices'][0]['message']['content']
+    # with open('./static/data/script.txt', 'w') as file:
+    #     file.write(get_content)
 
-    cmd = [
-            {
-                "role": "system", 
-                "content": "You are a riddle master with 200 IQ. Your task is to generate 3 clues for a given a word from user. Difficulty of riddle is easy."
-            },
-            {
-                "role": "user",
-                "content": "Word : Earth"
-            }
-        ]
-
-    data = {
-        "model" : 'gpt-3.5-turbo',
-        "messages" : cmd,
-        "temperature" : 0.2,
-        }
-
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-
-    get_content = response.json()['choices'][0]['message']['content']
-    with open('./static/data/script.txt', 'w') as file:
-        file.write(get_content)
+hint_fetcher("cat")
