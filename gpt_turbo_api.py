@@ -1,6 +1,8 @@
 import requests, json
 import constants
 
+import gpt4all
+
 
 def hint_fetcher(word):
 
@@ -14,12 +16,12 @@ def hint_fetcher(word):
     cmd = [
             {
                 "role": "system", 
-                "content": f"You are now a world famous Instagram Reels script writer and have access to variety of video content on the internet."
+                "content": "You are a riddle master with 200 IQ. Your task is to generate 3 clues for a given a word from user. Difficulty of riddle is easy."
             },
             {
-                "role": "system", 
-                "content": f"Whenever you write a script, you start the video details with the prefix 'Video of'. Then, you put narrator's voice line on the next line in {userInput['lang']} which is written using romanization with the prefix 'Narrator:' with no enclosing brackets."
-            },
+                "role": "user",
+                "content": "Word : Earth"
+            }
         ]
 
     data = {
