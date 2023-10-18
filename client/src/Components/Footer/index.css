@@ -1,0 +1,11 @@
+.footer {
+    padding: 1vh;
+}
+
+.footer ul {
+    list-style-type: none;
+}
+
+.footer li {
+    text-align: center;
+}
