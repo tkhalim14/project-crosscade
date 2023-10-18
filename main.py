@@ -5,16 +5,19 @@ from gpt_turbo_api import *
 
 from schema import User as SchemaUser
 from models import User as ModelUser
+from models import Base as ModelBase
 
-import os
+from constants import *
+
+from database import initialize_database
 # from dotenv import load_dotenv
 
 # load_dotenv('.env')
 
 app = FastAPI()
 
-app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:tabish123@localhost/')
-
+initialize_database(db_url, ModelBase)
+app.add_middleware(DBSessionMiddleware, db_url=db_url)
 
 @app.get("/")
 async def root():
@@ -29,8 +32,9 @@ async def create_user(user: SchemaUser):
     return db_user
 
 @app.get('/user/')
-async def create_user(user: SchemaUser):
+async def show_users():
     users = db.session.query(ModelUser).all()
+    # print(users)
     return users
 
 if __name__ == "__main__":
