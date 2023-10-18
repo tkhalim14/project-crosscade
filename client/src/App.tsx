@@ -9,18 +9,11 @@ import Footer from './Components/Footer';
 
 function App() {
   return (
-    <HashRouter basename="/">
-      <div className="App">
-        <Header/>
-        <div className='App-body'>
-          <Routes>
-            <Route path='/' element={<Hangman/>}/>
-            <Route path='/Hangman' element={<Hangman/>}/>
-          </Routes>
-        </div>
-        <Footer/>
+    <div className="App">
+      <div className='App-header'>
+        <Hangman/>
       </div>
-    </HashRouter>
+    </div>
   );
 }
 
