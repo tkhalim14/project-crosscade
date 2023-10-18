@@ -7,15 +7,18 @@ from schema import User as SchemaUser
 from models import User as ModelUser
 
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv('.env')
+# load_dotenv('.env')
 
 app = FastAPI()
+
+app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:tabish123@localhost/')
 
 
 @app.get("/")
 async def root():
+    # If database doesn't exist, create it
     return {"message": "Hello World"}
 
 @app.post('/user/', response_model=SchemaUser)
@@ -24,6 +27,11 @@ async def create_user(user: SchemaUser):
     db.session.add(db_user)
     db.session.commit()
     return db_user
+
+@app.get('/user/')
+async def create_user(user: SchemaUser):
+    users = db.session.query(ModelUser).all()
+    return users
 
 if __name__ == "__main__":
     import uvicorn
