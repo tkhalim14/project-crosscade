@@ -10,9 +10,6 @@ from models import Base as ModelBase
 from constants import *
 
 from database import initialize_database
-# from dotenv import load_dotenv
-
-# load_dotenv('.env')
 
 app = FastAPI()
 

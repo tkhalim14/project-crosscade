@@ -6,6 +6,7 @@ from gpt4all import GPT4All
 gpt_model_path = os.path.join(os.getcwd(),'model')
 
 def hint_fetcher(word):
+    return ['You are Gay', 'What is love but delayed hate?', 'Alohomora']
     if os.path.exists(gpt_model_path):
         print('Done')
     else:
