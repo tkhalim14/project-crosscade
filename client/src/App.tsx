@@ -4,6 +4,7 @@ import './App.css';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Hangman from './Components/Hangman';
 import Header from './Components/Header';
+import Home from './Components/Home';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Footer from './Components/Footer';
 
@@ -14,7 +15,7 @@ function App() {
         <Header/>
         <div className='App-body'>
           <Routes>
-            <Route path='/' element={<Hangman/>}/>
+            <Route path='/' element={<Home/>}/>
             <Route path='/Hangman' element={<Hangman/>}/>
           </Routes>
         </div>

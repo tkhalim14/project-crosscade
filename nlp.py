@@ -12,8 +12,10 @@ def get_random_word_and_meaning():
     word = random_synset.name().split('.')[0].replace("_", " ")
     meaning = random_synset.definition()
 
-    return word, meaning
+    print(f"Random Word: {word}")
+    print(f"Meaning: {meaning}")
+    return {"word": word, "riddle": meaning}
 
-random_word, random_meaning = get_random_word_and_meaning()
-print(f"Random Word: {random_word}")
-print(f"Meaning: {random_meaning}")
+# random_word, random_meaning = get_random_word_and_meaning()
+# print(f"Random Word: {random_word}")
+# print(f"Meaning: {random_meaning}")

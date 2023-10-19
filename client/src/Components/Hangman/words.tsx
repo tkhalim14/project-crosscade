@@ -1,55 +1,24 @@
-const PROGRAMING_LANG = [
-    "agda",
-    "basic",
-    "brainfuck",
-    "c",
-    "clojure",
-    "crystal",
-    "csharp",
-    "css",
-    "dart",
-    "delphi",
-    "elixir",
-    "elm",
-    "erlang",
-    "fortran",
-    "golang",
-    "groovy",
-    "haskell",
-    "html",
-    "idris",
-    "java",
-    "javascript",
-    "kotlin",
-    "lisp",
-    "lua",
-    "matlab",
-    "mercury",
-    "mint",
-    "myrddin",
-    "nim",
-    "objectivec",
-    "ocaml",
-    "pascal",
-    "perl",
-    "php",
-    "prolog",
-    "purescript",
-    "python",
-    "r",
-    "ruby",
-    "rust",
-    "scala",
-    "scheme",
-    "sql",
-    "swift",
-    "typescript",
-    "vimscript",
-    "zig",
-];
+async function randomWord() {
+    let word : string = "";
+    let meaning : string = "";
 
-function randomWord() {
-return PROGRAMING_LANG[Math.floor(Math.random() * PROGRAMING_LANG.length)];
+    await fetch('http://127.0.0.1:8000/fetchword')
+    .then( res=>{
+        if(!res.ok){
+            throw new Error('Network response not okay');    
+        }
+        return res.json();
+    })
+    .then(data => {
+        word = data['word'];
+        meaning = data['riddle'];
+        // console.log(data);
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
+    return {'word': word, 'riddle': meaning};
 }
 
 export { randomWord };

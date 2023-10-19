@@ -5,8 +5,11 @@ from gpt4all import GPT4All
 
 gpt_model_path = os.path.join(os.getcwd(),'model')
 
-def hint_fetcher(word, meaning):
-    return 'Clue: You are Gay'
+def hint_fetcher(word, meaning, bool_ai = False):
+    
+    if bool_ai==False:
+        return {'word':word,'riddle': 'Clue: You are Good Guy'}
+    
     if os.path.exists(gpt_model_path):
         print('Done')
     else:

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { randomWord } from './words';
+import React, { Component } from "react";
+import { randomWord } from "./words";
 
 import './index.css';
 
@@ -11,8 +11,8 @@ import step4 from "../Media/images/4.jpg";
 import step5 from "../Media/images/5.jpg";
 import step6 from "../Media/images/6.jpg";
 
-class Hangman extends Component <{maxWrong: number, images: any},{word: any, riddle: any, loading: boolean, error: any, mistake: number, guessed: Set<string>}>{
 
+class Hangman extends Component<{maxWrong: number, images: any},{answer: string[], mistake: number, guessed: Set<string>}> {
 
   protected gameStat : any;
 
@@ -21,16 +21,12 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
     images: [step0, step1, step2, step3, step4, step5, step6],
   }
 
-
   constructor(props: any) {
     super(props);
     this.state = {
-      word: null,
-      riddle: null,
-      loading: true,
-      error: null,
       mistake: 0,
       guessed: new Set(),
+      answer: [],
     };
     this.handleGuess = this.handleGuess.bind(this);
     this.keyPress = this.keyPress.bind(this);
@@ -38,23 +34,21 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
   }
 
   async componentDidMount() {
-    await this.fetchfromapi();
+    await this.getwordfromapi();
   }
 
-  async fetchfromapi () {
+  getwordfromapi = async () => {
     try {
       const data = await randomWord();
-      const word = data['word'];
-      const riddle = data["riddle"];
-      this.setState({ word: word, riddle: riddle, loading: false });
+      this.setState({ answer: data });
     } catch (error) {
-      this.setState({ error, loading: false });
+      this.setState({ answer: []});
     }
   }
 
   guessedWord = () => {
     try {
-      return this.state.word.split("").map((bingo: string) => (this.state.guessed.has(bingo) ? bingo : "_"));
+      return this.state.answer[0].split("").map((bingo) => (this.state.guessed.has(bingo) ? bingo : "_"));
     }
     catch (error) {
       return [];
@@ -65,7 +59,7 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
     let letter = value;
     this.setState((st) => ({
       guessed: st.guessed.add(letter),
-      mistake: st.mistake + (st.word.includes(letter) ? 0 : 1),
+      mistake: st.mistake + (st.answer.includes(letter) ? 0 : 1),
     }));
   }
 
@@ -108,23 +102,19 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
 
   resetButton = async () => {
     this.setState({
-      word: null,
-      riddle: null,
-      loading: true,
-      error: null,
       mistake: 0,
       guessed: new Set(),
+      answer: [],
     });
-    await this.fetchfromapi();
+    await this.getwordfromapi();
   };
 
   render() {
-    const { word, riddle, loading, error } = this.state;
-    const { mistake } = this.state;
+    const { mistake, answer } = this.state;
     const { maxWrong, images } = this.props;
     const gameOver = mistake >= maxWrong;
     const altText = `${mistake}/${maxWrong} wrong guesses`;
-    const isWinner = this.guessedWord().join("") === word;
+    const isWinner = this.guessedWord().join("") === answer[0];
     this.gameStat = this.generateButtons();
     
     if (isWinner) {
@@ -134,14 +124,6 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
       this.gameStat = "YOU LOST";
     }
 
-    if (loading) {
-      return <div>Loading...</div>;
-    }
-
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    }
-
     return (
       <div className="Hangman">
 
@@ -149,10 +131,10 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
           <img src={images[mistake]} alt={altText} />
         </p>
         <p className="text-center text-light">
-          {riddle}
+          Guess the Programming Language ?
         </p>
         <p className="Hangman-word text-center">
-          {!gameOver ? this.guessedWord() : word}{" "}
+          {!gameOver ? this.guessedWord() : answer}{" "}
         </p>
 
         <p className="text-center text-warning mt-4">{this.gameStat}</p>
@@ -167,6 +149,7 @@ class Hangman extends Component <{maxWrong: number, images: any},{word: any, rid
       </div>
     );
   }
-}
+
+};
 
 export default Hangman;

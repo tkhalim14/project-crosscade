@@ -4,15 +4,17 @@ import Navbar from 'react-bootstrap/Navbar';
 
 const Header = () => {
     return (
-        <Navbar bg="dark" data-bs-theme="dark">
+      <>
+      <Navbar bg="light" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="/">Cross-cade</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/Hangman">Hangman</Nav.Link>
+            <Nav.Link href="#Hangman">Hangman</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
+      </>
     );
 }
 
